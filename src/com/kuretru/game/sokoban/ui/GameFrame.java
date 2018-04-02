@@ -1,6 +1,7 @@
 package com.kuretru.game.sokoban.ui;
 
 import java.awt.Dimension;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,8 +16,8 @@ public class GameFrame extends JFrame {
 
 	public GameFrame() {
 		levelData = new LevelData("data1"); // 载入关卡数据
-		initialize();
 		setLevelData();
+		initialize();
 	}
 
 	// 初始化控件
@@ -27,10 +28,14 @@ public class GameFrame extends JFrame {
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
+
+		// 拉伸背景图片
+		ImageIcon backGround = new ImageIcon("res/background.png");
+		backGround.setImage(backGround.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT));
 		JLabel lblBackground = new JLabel("");
-		lblBackground.setIcon(new ImageIcon("res/background.png"));
+		lblBackground.setIcon(backGround);
 		lblBackground.setBounds(0, 0, getWidth(), getHeight());
-		// this.getContentPane().add(lblBackground);
+		this.getContentPane().add(lblBackground);
 		this.setVisible(true);
 	}
 
@@ -48,6 +53,8 @@ public class GameFrame extends JFrame {
 					label.setIcon(new ImageIcon("res/wall.png"));
 				else if (c == '@')
 					label.setIcon(new ImageIcon("res/person-forward.png"));
+				else if (c == '$')
+					label.setIcon(new ImageIcon("res/box.png"));
 				else if (c == '.')
 					label.setIcon(new ImageIcon("res/target.png"));
 				label.setBounds(j * WIDTH, i * WIDTH, 50, 50);
