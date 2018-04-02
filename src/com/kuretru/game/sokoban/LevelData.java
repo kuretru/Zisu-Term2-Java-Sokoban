@@ -35,25 +35,25 @@ public class LevelData {
 	}
 
 	// 获取最宽那一行的长度
-	private int getMaxLineLength() {
-		int length = 0;
+	public int getMaxLineLength() {
+		int max = 0;
 		for (int i = 0; i < data.size(); i++) {
-			if (data.get(i).length() > 0) {
-				length = data.get(i).length();
+			if (data.get(i).length() > max) {
+				max = data.get(i).length();
 			}
 		}
-		return length;
+		return max;
 	}
 
 	// 返回关卡数据的指定行
-	private String get(int index) {
+	public String get(int index) {
 		if (index < 0 || index >= data.size())
 			return null;
 		return data.get(index);
 	}
 
 	// 返回关卡数据的行数
-	private int size() {
+	public int getSize() {
 		return data.size();
 	}
 }
