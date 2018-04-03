@@ -9,21 +9,28 @@ import java.util.List;
 
 public class LevelData {
 	private static final String SUFFIX = ".sokoban";
-	private List<String> data;
+	private List<String> raw;
+	private Cell[][] data;
+	private int xLength;
+	private int yLength;
 
 	public LevelData(String level) {
-		data = new ArrayList<String>();
-		loadDataFile(String.format("res/level/%s%s", level, SUFFIX));
+		raw = new ArrayList<String>();
+		loadRawFile(String.format("res/level/%s%s", level, SUFFIX));
+		xLength = raw.size();
+		yLength = getMaxLineLength();
+		deserialize();
+
 	}
 
 	// 从资源文件载入关卡数据
-	private void loadDataFile(String path) {
+	private void loadRawFile(String path) {
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
 				if (line.length() != 0) {
-					data.add(line);
+					raw.add(line);
 				}
 			}
 			bufferedReader.close();
@@ -34,26 +41,60 @@ public class LevelData {
 		}
 	}
 
-	// 获取最宽那一行的长度
-	public int getMaxLineLength() {
+	private void deserialize() {
+		data = new Cell[raw.size()][getMaxLineLength()];
+		for (int i = 0; i < xLength; i++) {
+			for (int j = 0; j < yLength; j++) {
+				data[i][j] = new Cell();
+				char c = ' ';
+				if (j < raw.get(i).length())
+					c = raw.get(i).charAt(j);
+				switch (c) {
+				case '#':
+					data[i][j].type = CellTypeEnum.WALL;
+					break;
+				case '@':
+					data[i][j].type = CellTypeEnum.PERSON;
+					break;
+				case '$':
+					data[i][j].type = CellTypeEnum.BOX;
+					break;
+				case '.':
+					data[i][j].type = CellTypeEnum.TARGET;
+					break;
+				default:
+					data[i][j].type = CellTypeEnum.EMPTY;
+					break;
+				}
+				data[i][j].label = null;
+			}
+		}
+	}
+
+	private int getMaxLineLength() {
 		int max = 0;
-		for (int i = 0; i < data.size(); i++) {
-			if (data.get(i).length() > max) {
-				max = data.get(i).length();
+		for (int i = 0; i < raw.size(); i++) {
+			if (raw.get(i).length() > max) {
+				max = raw.get(i).length();
 			}
 		}
 		return max;
 	}
 
-	// 返回关卡数据的指定行
-	public String get(int index) {
-		if (index < 0 || index >= data.size())
+	// 返回指定行、列的关卡数据
+	public Cell get(int x, int y) {
+		if (x < 0 || x >= xLength || y < 0 || y >= yLength)
 			return null;
-		return data.get(index);
+		return data[x][y];
 	}
 
 	// 返回关卡数据的行数
-	public int getSize() {
-		return data.size();
+	public int getX() {
+		return xLength;
+	}
+
+	// 返回关卡数据的列数
+	public int getY() {
+		return yLength;
 	}
 }
