@@ -87,14 +87,30 @@ public class GameFrame extends JFrame implements KeyListener {
 		this.getContentPane().repaint();
 	}
 
+	// ÍÆÏä×Ó
 	private void push(int direction) {
-		JLabel label = levelData.get(person.x, person.y).label;
+		JLabel label = levelData.get(person).label;
 		label.setIcon(new ImageIcon(String.format("res/person-%s.png", imageName[direction])));
+		Point next = new Point(person.x + offset[direction][1], person.y + offset[direction][0]);
+		if (levelData.get(next).type == CellTypeEnum.WALL) {
+			return;
+		} else if (levelData.get(next).type == CellTypeEnum.BOX) {
+			Point nnext = new Point(next.x + offset[direction][1], next.y + offset[direction][0]);
+			if (levelData.get(nnext).type == CellTypeEnum.WALL || levelData.get(nnext).type == CellTypeEnum.BOX)
+				return;
+			Rectangle rectangle = levelData.get(next).label.getBounds();
+			rectangle.x += offset[direction][0] * WIDTH;
+			rectangle.y += offset[direction][1] * WIDTH;
+			levelData.get(next).label.setBounds(rectangle);
+			levelData.swap(next, nnext);
+		}
+		levelData.swap(person, next);
+		person = next;
+
 		Rectangle rectangle = label.getBounds();
 		rectangle.x += offset[direction][0] * WIDTH;
 		rectangle.y += offset[direction][1] * WIDTH;
 		label.setBounds(rectangle);
-		this.getContentPane().repaint();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.kuretru.game.sokoban;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -86,6 +87,20 @@ public class LevelData {
 		if (x < 0 || x >= xLength || y < 0 || y >= yLength)
 			return null;
 		return data[x][y];
+	}
+
+	// 返回指定行、列的关卡数据
+	public Cell get(Point p) {
+		if (p.x < 0 || p.x >= xLength || p.y < 0 || p.y >= yLength)
+			return null;
+		return data[p.x][p.y];
+	}
+
+	// 交换2个点的内容
+	public void swap(Point p, Point q) {
+		Cell tmp = data[p.x][p.y];
+		data[p.x][p.y] = data[q.x][q.y];
+		data[q.x][q.y] = tmp;
 	}
 
 	// 返回关卡数据的行数
