@@ -2,9 +2,12 @@ package com.kuretru.game.sokoban.ui;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,11 +20,11 @@ import com.kuretru.game.sokoban.LevelData;
 public class GameFrame extends JFrame implements KeyListener {
 	private static final long serialVersionUID = 1L;
 	private static final int WIDTH = 50;
-	private static final int[][] offset = { { -50, 0 }, { 0, -50 }, { 50, 0 }, { 0, 50 } };
+	private static final int[][] offset = { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
 	private static final String[] imageName = { "left", "backward", "right", "forward" };
 
 	private LevelData levelData;
-	private JLabel lblPerson;
+	private Point person;
 
 	public GameFrame() {
 		levelData = new LevelData("data1"); // 载入关卡数据
@@ -51,6 +54,8 @@ public class GameFrame extends JFrame implements KeyListener {
 
 	// 根据关卡数据，设置控件
 	private void setLevelData() {
+		List<JLabel> boxes = new ArrayList<JLabel>();
+		JLabel personLabel = null;
 		for (int i = 0; i < levelData.getX(); i++) {
 			for (int j = 0; j < levelData.getY(); j++) {
 				Cell cell = levelData.get(i, j);
@@ -58,28 +63,37 @@ public class GameFrame extends JFrame implements KeyListener {
 					continue;
 				JLabel label = new JLabel("");
 				label.setName(String.format("lbl%02d%02d", j, i));
-				if (cell.type == CellTypeEnum.WALL)
+				if (cell.type == CellTypeEnum.WALL) {
 					label.setIcon(new ImageIcon("res/wall.png"));
-				else if (cell.type == CellTypeEnum.PERSON) {
+					this.getContentPane().add(label);
+				} else if (cell.type == CellTypeEnum.PERSON) {
 					label.setIcon(new ImageIcon("res/person-forward.png"));
-					lblPerson = label;
-				} else if (cell.type == CellTypeEnum.BOX)
+					person = new Point(i, j);
+					personLabel = label;
+				} else if (cell.type == CellTypeEnum.BOX) {
 					label.setIcon(new ImageIcon("res/box.png"));
-				else if (cell.type == CellTypeEnum.TARGET)
+					boxes.add(label);
+				} else if (cell.type == CellTypeEnum.TARGET) {
 					label.setIcon(new ImageIcon("res/target.png"));
+					this.getContentPane().add(label);
+				}
 				label.setBounds(j * WIDTH, i * WIDTH, 50, 50);
-				this.getContentPane().add(label);
+				cell.label = label;
 			}
 		}
+		for (JLabel label : boxes)
+			this.getContentPane().add(label);
+		this.getContentPane().add(personLabel);
 		this.getContentPane().repaint();
 	}
 
 	private void push(int direction) {
-		lblPerson.setIcon(new ImageIcon(String.format("res/person-%s.png", imageName[direction])));
-		Rectangle rectangle = lblPerson.getBounds();
-		rectangle.x += offset[direction][0];
-		rectangle.y += offset[direction][1];
-		lblPerson.setBounds(rectangle);
+		JLabel label = levelData.get(person.x, person.y).label;
+		label.setIcon(new ImageIcon(String.format("res/person-%s.png", imageName[direction])));
+		Rectangle rectangle = label.getBounds();
+		rectangle.x += offset[direction][0] * WIDTH;
+		rectangle.y += offset[direction][1] * WIDTH;
+		label.setBounds(rectangle);
 		this.getContentPane().repaint();
 	}
 
