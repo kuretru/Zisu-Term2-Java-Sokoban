@@ -92,25 +92,38 @@ public class GameFrame extends JFrame implements KeyListener {
 		JLabel label = levelData.get(person).label;
 		label.setIcon(new ImageIcon(String.format("res/person-%s.png", imageName[direction])));
 		Point next = new Point(person.x + offset[direction][1], person.y + offset[direction][0]);
-		if (levelData.get(next).type == CellTypeEnum.WALL) {
+		Cell nextCell = levelData.get(next);
+		if (nextCell.type == CellTypeEnum.WALL) {
 			return;
-		} else if (levelData.get(next).type == CellTypeEnum.BOX) {
+		} else if (nextCell.type == CellTypeEnum.BOX) {
 			Point nnext = new Point(next.x + offset[direction][1], next.y + offset[direction][0]);
 			if (levelData.get(nnext).type == CellTypeEnum.WALL || levelData.get(nnext).type == CellTypeEnum.BOX)
 				return;
-			Rectangle rectangle = levelData.get(next).label.getBounds();
+			Rectangle rectangle = nextCell.label.getBounds();
 			rectangle.x += offset[direction][0] * WIDTH;
 			rectangle.y += offset[direction][1] * WIDTH;
-			levelData.get(next).label.setBounds(rectangle);
+			nextCell.label.setBounds(rectangle);
+			if (levelData.isArrived(nnext)) {
+				nextCell.label.setIcon(new ImageIcon("res/finish.png"));
+			} else {
+				nextCell.label.setIcon(new ImageIcon("res/box.png"));
+			}
 			levelData.swap(next, nnext);
 		}
 		levelData.swap(person, next);
 		person = next;
-
 		Rectangle rectangle = label.getBounds();
 		rectangle.x += offset[direction][0] * WIDTH;
 		rectangle.y += offset[direction][1] * WIDTH;
 		label.setBounds(rectangle);
+		completeInspect();
+	}
+
+	// 检查是否已通关
+	private void completeInspect() {
+		if (!levelData.completed())
+			return;
+		System.out.println("Finished");
 	}
 
 	@Override

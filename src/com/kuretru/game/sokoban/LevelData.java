@@ -11,12 +11,14 @@ import java.util.List;
 public class LevelData {
 	private static final String SUFFIX = ".sokoban";
 	private List<String> raw;
+	private List<Point> targetPoints;
 	private Cell[][] data;
 	private int xLength;
 	private int yLength;
 
 	public LevelData(String level) {
 		raw = new ArrayList<String>();
+		targetPoints = new ArrayList<Point>();
 		loadRawFile(String.format("res/level/%s%s", level, SUFFIX));
 		xLength = raw.size();
 		yLength = getMaxLineLength();
@@ -62,6 +64,7 @@ public class LevelData {
 					break;
 				case '.':
 					data[i][j].type = CellTypeEnum.TARGET;
+					targetPoints.add(new Point(i, j));
 					break;
 				default:
 					data[i][j].type = CellTypeEnum.EMPTY;
@@ -111,5 +114,25 @@ public class LevelData {
 	// 返回关卡数据的列数
 	public int getY() {
 		return yLength;
+	}
+
+	// 判断某个目标是否已经有箱子
+	public boolean isArrived(Point p) {
+		for (Point point : targetPoints) {
+			if (point.x == p.x && point.y == p.y) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// 判断游戏是否通关
+	public boolean completed() {
+		for (Point point : targetPoints) {
+			if (data[point.x][point.y].type != CellTypeEnum.BOX) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
