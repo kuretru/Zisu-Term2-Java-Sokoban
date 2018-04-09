@@ -121,12 +121,11 @@ public class GameFrame extends JFrame implements KeyListener {
 		rectangle.x += offset[direction][0] * WIDTH;
 		rectangle.y += offset[direction][1] * WIDTH;
 		label.setBounds(rectangle);
-		completeInspect();
 	}
 
 	// 检查是否已通关
-	private void completeInspect() {
-		if (!levelData.completed())
+	private void completeInspect(boolean check) {
+		if (check && !levelData.completed())
 			return;
 		endTime = System.currentTimeMillis();
 		new VictoryDialog(this);
@@ -148,10 +147,12 @@ public class GameFrame extends JFrame implements KeyListener {
 				startTime = System.currentTimeMillis();
 			push(code - 37);
 			step++;
+			completeInspect(true);
 		} else if (code == 71) {
-			endTime = System.currentTimeMillis();
-			new VictoryDialog(this);
-			this.setEnabled(false);
+			completeInspect(false);
+		} else if (code == 27) {
+			new GameFrame(this.level);
+			this.dispose();
 		}
 	}
 

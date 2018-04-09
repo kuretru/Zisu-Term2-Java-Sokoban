@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -26,7 +26,7 @@ public class VictoryDialog extends JDialog {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				parent.setEnabled(true);
-				btnNext_mouseClicked(null);
+				btnNext_actionPerformed(null);
 			}
 		});
 	}
@@ -64,10 +64,9 @@ public class VictoryDialog extends JDialog {
 		getContentPane().add(btnMenu);
 
 		JButton btnRetry = new JButton("重试");
-		btnRetry.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				btnRetry_mouseClicked(arg0);
+		btnRetry.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnRetry_actionPerformed(arg0);
 			}
 		});
 		btnRetry.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -75,10 +74,9 @@ public class VictoryDialog extends JDialog {
 		getContentPane().add(btnRetry);
 
 		JButton btnNext = new JButton("下一关");
-		btnNext.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				btnNext_mouseClicked(arg0);
+		btnNext.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnNext_actionPerformed(arg0);
 			}
 		});
 		btnNext.setFont(new Font("幼圆", Font.PLAIN, 18));
@@ -92,6 +90,7 @@ public class VictoryDialog extends JDialog {
 		lblBackground.setIcon(backGround);
 		lblBackground.setBounds(0, 0, getWidth(), getHeight());
 		this.getContentPane().add(lblBackground);
+		this.getRootPane().setDefaultButton(btnNext);
 		this.setVisible(true);
 	}
 
@@ -106,13 +105,13 @@ public class VictoryDialog extends JDialog {
 		return String.format("%d分%d秒 %d", minute, second, milSecond);
 	}
 
-	private void btnRetry_mouseClicked(MouseEvent e) {
+	private void btnRetry_actionPerformed(ActionEvent e) {
 		new GameFrame(parent.level);
 		this.dispose();
 		parent.dispose();
 	}
 
-	private void btnNext_mouseClicked(MouseEvent e) {
+	private void btnNext_actionPerformed(ActionEvent e) {
 		new GameFrame(parent.level + 1);
 		this.dispose();
 		parent.dispose();
