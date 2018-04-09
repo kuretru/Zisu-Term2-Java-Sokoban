@@ -25,9 +25,14 @@ public class GameFrame extends JFrame implements KeyListener {
 
 	private LevelData levelData;
 	private Point person;
+	public int level = 0;// 关卡号
+	public int step = 0;// 走的步数
+	private long startTime = 0;
+	private long endTime = 0;
 
-	public GameFrame() {
-		levelData = new LevelData("data1"); // 载入关卡数据
+	public GameFrame(int level) {
+		this.level = level;
+		levelData = new LevelData(String.format("data%d", level)); // 载入关卡数据
 		setLevelData();
 		initialize();
 	}
@@ -36,7 +41,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	private void initialize() {
 		this.setSize(new Dimension(levelData.getY() * WIDTH + 10, levelData.getX() * WIDTH + 40));
 		this.setLocationRelativeTo(null);
-		this.setTitle("Sokoban - 推箱子");
+		this.setTitle(String.format("Sokoban - 推箱子 - 关卡%d", level));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
@@ -123,14 +128,31 @@ public class GameFrame extends JFrame implements KeyListener {
 	private void completeInspect() {
 		if (!levelData.completed())
 			return;
-		System.out.println("Finished");
+		endTime = System.currentTimeMillis();
+		new VictoryDialog(this);
+		this.setEnabled(false);
+	}
+
+	// 获取游戏用时
+	public long getTimeCost() {
+		if (startTime == 0 || endTime == 0)
+			return -1;
+		return endTime - startTime;
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
-		if (code >= 37 && code <= 40)
+		if (code >= 37 && code <= 40) {
+			if (startTime == 0)
+				startTime = System.currentTimeMillis();
 			push(code - 37);
+			step++;
+		} else if (code == 71) {
+			endTime = System.currentTimeMillis();
+			new VictoryDialog(this);
+			this.setEnabled(false);
+		}
 	}
 
 	@Override
