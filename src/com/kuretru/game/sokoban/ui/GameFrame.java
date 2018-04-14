@@ -6,6 +6,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,12 @@ public class GameFrame extends JFrame implements KeyListener {
 	private long endTime = 0;
 
 	public GameFrame(int level) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				new MenuFrame((level - 1) / 15);
+			}
+		});
 		this.level = level;
 		levelData = new LevelData(String.format("data%d", level)); // 载入关卡数据
 		setLevelData();
@@ -43,7 +51,7 @@ public class GameFrame extends JFrame implements KeyListener {
 		this.setLocationRelativeTo(null);
 		this.setTitle(String.format("Sokoban - 推箱子 - 关卡%d", level));
 		this.setResizable(false);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 		this.addKeyListener(this);
 

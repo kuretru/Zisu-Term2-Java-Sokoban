@@ -3,7 +3,7 @@ package com.kuretru.game.sokoban;
 public class Program {
 
 	public static void main(String[] args) {
-		new com.kuretru.game.sokoban.ui.GameFrame(0);
+		new com.kuretru.game.sokoban.ui.MenuFrame(0);
 	}
 
 }
