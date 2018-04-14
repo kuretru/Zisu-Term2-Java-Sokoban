@@ -95,9 +95,9 @@ public class GameFrame extends JFrame implements KeyListener {
 				cell.label = label;
 			}
 		}
+		this.getContentPane().add(personLabel);
 		for (JLabel label : boxes)
 			this.getContentPane().add(label);
-		this.getContentPane().add(personLabel);
 		this.getContentPane().repaint();
 	}
 
