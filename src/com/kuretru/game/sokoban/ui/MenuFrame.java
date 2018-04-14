@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import com.kuretru.game.sokoban.PageTurnEnum;
+import com.kuretru.game.sokoban.Program;
 
 public class MenuFrame extends JFrame {
 
@@ -112,7 +113,7 @@ public class MenuFrame extends JFrame {
 		lblPage.setBounds(425, 480, 120, 48);
 		getContentPane().add(lblPage);
 
-		ImageIcon backGround = new ImageIcon("res/background.png");
+		ImageIcon backGround = new ImageIcon(Program.class.getResource("/background.png"));
 		backGround.setImage(backGround.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT));
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(backGround);
@@ -139,8 +140,8 @@ public class MenuFrame extends JFrame {
 		lblPage.setText(String.format("ตฺ %d าณ", page + 1));
 		for (int i = 0; i < buttonList.size(); i++) {
 			JButton button = buttonList.get(i);
-			ImageIcon image = new ImageIcon(
-					String.format("res/screen/data%d.jpg", page * ROW_COUNT * COLUMN_COUNT + i + 1));
+			ImageIcon image = new ImageIcon(Program.class
+					.getResource(String.format("/screen/data%d.jpg", page * ROW_COUNT * COLUMN_COUNT + i + 1)));
 			image.setImage(image.getImage().getScaledInstance(BUTTON_WIDTH, BUTTON_HEIGHT, Image.SCALE_DEFAULT));
 			button.setIcon(image);
 		}

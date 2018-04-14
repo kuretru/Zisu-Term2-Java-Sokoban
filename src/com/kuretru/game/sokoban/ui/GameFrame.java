@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import com.kuretru.game.sokoban.Cell;
 import com.kuretru.game.sokoban.CellTypeEnum;
 import com.kuretru.game.sokoban.LevelData;
+import com.kuretru.game.sokoban.Program;
 
 public class GameFrame extends JFrame implements KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -56,7 +57,7 @@ public class GameFrame extends JFrame implements KeyListener {
 		this.addKeyListener(this);
 
 		// À­Éì±³¾°Í¼Æ¬
-		ImageIcon backGround = new ImageIcon("res/background.png");
+		ImageIcon backGround = new ImageIcon(Program.class.getResource("/background.png"));
 		backGround.setImage(backGround.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT));
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(backGround);
@@ -77,17 +78,17 @@ public class GameFrame extends JFrame implements KeyListener {
 				JLabel label = new JLabel("");
 				label.setName(String.format("lbl%02d%02d", j, i));
 				if (cell.type == CellTypeEnum.WALL) {
-					label.setIcon(new ImageIcon("res/wall.png"));
+					label.setIcon(new ImageIcon(Program.class.getResource("/wall.png")));
 					this.getContentPane().add(label);
 				} else if (cell.type == CellTypeEnum.PERSON) {
-					label.setIcon(new ImageIcon("res/person-forward.png"));
+					label.setIcon(new ImageIcon(Program.class.getResource("/person-forward.png")));
 					person = new Point(i, j);
 					personLabel = label;
 				} else if (cell.type == CellTypeEnum.BOX) {
-					label.setIcon(new ImageIcon("res/box.png"));
+					label.setIcon(new ImageIcon(Program.class.getResource("/box.png")));
 					boxes.add(label);
 				} else if (cell.type == CellTypeEnum.TARGET) {
-					label.setIcon(new ImageIcon("res/target.png"));
+					label.setIcon(new ImageIcon(Program.class.getResource("/target.png")));
 					this.getContentPane().add(label);
 				}
 				label.setBounds(j * WIDTH, i * WIDTH, 50, 50);
@@ -103,7 +104,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	// ÍÆÏä×Ó
 	private void push(int direction) {
 		JLabel label = levelData.get(person).label;
-		label.setIcon(new ImageIcon(String.format("res/person-%s.png", imageName[direction])));
+		label.setIcon(new ImageIcon(Program.class.getResource(String.format("/person-%s.png", imageName[direction]))));
 		Point next = new Point(person.x + offset[direction][1], person.y + offset[direction][0]);
 		Cell nextCell = levelData.get(next);
 		if (nextCell.type == CellTypeEnum.WALL) {
@@ -117,9 +118,9 @@ public class GameFrame extends JFrame implements KeyListener {
 			rectangle.y += offset[direction][1] * WIDTH;
 			nextCell.label.setBounds(rectangle);
 			if (levelData.isArrived(nnext)) {
-				nextCell.label.setIcon(new ImageIcon("res/finish.png"));
+				nextCell.label.setIcon(new ImageIcon(Program.class.getResource("/finish.png")));
 			} else {
-				nextCell.label.setIcon(new ImageIcon("res/box.png"));
+				nextCell.label.setIcon(new ImageIcon(Program.class.getResource("/box.png")));
 			}
 			levelData.swap(next, nnext);
 		}

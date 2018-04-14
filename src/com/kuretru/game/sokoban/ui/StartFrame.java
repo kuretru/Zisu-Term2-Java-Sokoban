@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import com.kuretru.game.sokoban.Program;
+
 public class StartFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -70,7 +72,7 @@ public class StartFrame extends JFrame {
 		btnExit.setBounds(390, 400, 160, 48);
 		getContentPane().add(btnExit);
 
-		ImageIcon backGround = new ImageIcon("res/background.png");
+		ImageIcon backGround = new ImageIcon(Program.class.getResource("/background.png"));
 		backGround.setImage(backGround.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT));
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(backGround);

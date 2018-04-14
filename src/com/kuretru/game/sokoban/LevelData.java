@@ -3,8 +3,8 @@ package com.kuretru.game.sokoban;
 import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class LevelData {
 	public LevelData(String level) {
 		raw = new ArrayList<String>();
 		targetPoints = new ArrayList<Point>();
-		loadRawFile(String.format("res/level/%s%s", level, SUFFIX));
+		loadRawFile(String.format("/level/%s%s", level, SUFFIX));
 		xLength = raw.size();
 		yLength = getMaxLineLength();
 		deserialize();
@@ -29,7 +29,8 @@ public class LevelData {
 	// 从资源文件载入关卡数据
 	private void loadRawFile(String path) {
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(Program.class.getResourceAsStream(path)));
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
 				if (line.length() != 0) {

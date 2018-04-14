@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import com.kuretru.game.sokoban.Program;
+
 public class VictoryDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -84,7 +86,7 @@ public class VictoryDialog extends JDialog {
 		getContentPane().add(btnNext);
 
 		// ¿≠…Ï±≥æ∞Õº∆¨
-		ImageIcon backGround = new ImageIcon("res/background.png");
+		ImageIcon backGround = new ImageIcon(Program.class.getResource("/background.png"));
 		backGround.setImage(backGround.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_DEFAULT));
 		JLabel lblBackground = new JLabel("");
 		lblBackground.setIcon(backGround);
