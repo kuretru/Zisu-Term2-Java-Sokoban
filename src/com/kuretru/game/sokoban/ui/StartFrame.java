@@ -44,6 +44,7 @@ public class StartFrame extends JFrame {
 		getContentPane().add(lblSokoban);
 
 		JButton btnStart = new JButton("开始游戏");
+		btnStart.setFont(new Font("宋体", Font.PLAIN, 24));
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new MenuFrame(0);
@@ -54,6 +55,7 @@ public class StartFrame extends JFrame {
 		getContentPane().add(btnStart);
 
 		JButton btnTutor = new JButton("游戏教学");
+		btnTutor.setFont(new Font("宋体", Font.PLAIN, 24));
 		btnTutor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new GameFrame(0);
@@ -64,6 +66,7 @@ public class StartFrame extends JFrame {
 		getContentPane().add(btnTutor);
 
 		JButton btnExit = new JButton("退出");
+		btnExit.setFont(new Font("宋体", Font.PLAIN, 24));
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
