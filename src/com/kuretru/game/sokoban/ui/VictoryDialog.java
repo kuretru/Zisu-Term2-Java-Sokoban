@@ -61,6 +61,11 @@ public class VictoryDialog extends JDialog {
 		getContentPane().add(lblTime);
 
 		JButton btnMenu = new JButton("²Ëµ¥");
+		btnMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				btnMenu_actionPerformed(arg0);
+			}
+		});
 		btnMenu.setFont(new Font("Ó×Ô²", Font.PLAIN, 18));
 		btnMenu.setBounds(69, 186, 120, 40);
 		getContentPane().add(btnMenu);
@@ -105,6 +110,12 @@ public class VictoryDialog extends JDialog {
 		time /= 60;
 		long minute = time % 60;
 		return String.format("%d·Ö%dÃë %d", minute, second, milSecond);
+	}
+
+	private void btnMenu_actionPerformed(ActionEvent e) {
+		new MenuFrame((parent.level - 1) / 15);
+		this.dispose();
+		parent.dispose();
 	}
 
 	private void btnRetry_actionPerformed(ActionEvent e) {
