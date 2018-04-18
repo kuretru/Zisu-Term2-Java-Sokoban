@@ -50,7 +50,7 @@ public class GameFrame extends JFrame implements KeyListener {
 	private void initialize() {
 		this.setSize(new Dimension(levelData.getY() * WIDTH + 10, levelData.getX() * WIDTH + 40));
 		this.setLocationRelativeTo(null);
-		this.setTitle(String.format("Sokoban - 推箱子 - 关卡%d", level));
+		this.setTitle(String.format("%s - 关卡%d", Program.PROGRAM_TITLE, level));
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);

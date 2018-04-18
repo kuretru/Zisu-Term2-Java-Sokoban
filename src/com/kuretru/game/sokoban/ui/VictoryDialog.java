@@ -37,7 +37,7 @@ public class VictoryDialog extends JDialog {
 	private void initialize() {
 		this.setSize(new Dimension(533, 300));
 		this.setLocationRelativeTo(null);
-		this.setTitle("¹§Ï²Äú£¬Ê¤ÀûÁË£¡");
+		this.setTitle(Program.PROGRAM_TITLE);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);

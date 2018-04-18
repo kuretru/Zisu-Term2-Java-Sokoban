@@ -44,7 +44,7 @@ public class MenuFrame extends JFrame {
 	private void initialize() {
 		this.setSize(new Dimension(970, 600));
 		this.setLocationRelativeTo(null);
-		this.setTitle("Sokoban - ÍÆÏä×Ó");
+		this.setTitle(Program.PROGRAM_TITLE);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.getContentPane().setLayout(null);
