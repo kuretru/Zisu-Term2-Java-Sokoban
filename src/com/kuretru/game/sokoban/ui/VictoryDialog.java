@@ -15,6 +15,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 import com.kuretru.game.sokoban.Program;
+import com.kuretru.game.sokoban.TimeUtiliy;
 
 public class VictoryDialog extends JDialog {
 
@@ -54,7 +55,7 @@ public class VictoryDialog extends JDialog {
 		lblStep.setBounds(68, 127, 160, 18);
 		getContentPane().add(lblStep);
 
-		JLabel lblTime = new JLabel("用时：" + getTimeString(parent.getTimeCost()));
+		JLabel lblTime = new JLabel("用时：" + TimeUtiliy.getTimeString(parent.getTimeCost()));
 		lblTime.setForeground(new Color(255, 204, 204));
 		lblTime.setFont(new Font("微软雅黑", Font.PLAIN, 18));
 		lblTime.setBounds(263, 127, 195, 18);
@@ -99,17 +100,6 @@ public class VictoryDialog extends JDialog {
 		this.getContentPane().add(lblBackground);
 		this.getRootPane().setDefaultButton(btnNext);
 		this.setVisible(true);
-	}
-
-	private static String getTimeString(long time) {
-		if (time <= 0)
-			return String.valueOf(time);
-		long milSecond = time % 1000;
-		time /= 1000;
-		long second = time % 60;
-		time /= 60;
-		long minute = time % 60;
-		return String.format("%d分%d秒 %d", minute, second, milSecond);
 	}
 
 	private void btnMenu_actionPerformed(ActionEvent e) {
