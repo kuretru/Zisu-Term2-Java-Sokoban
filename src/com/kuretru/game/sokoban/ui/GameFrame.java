@@ -148,6 +148,11 @@ public class GameFrame extends JFrame implements KeyListener {
 		return endTime - startTime;
 	}
 
+	// 恢复窗体，修正时间
+	public void resume() {
+		startTime = System.currentTimeMillis() - getTimeCost();
+	}
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
@@ -160,8 +165,9 @@ public class GameFrame extends JFrame implements KeyListener {
 		} else if (code == 71) {
 			completeInspect(false);
 		} else if (code == 27) {
-			new GameFrame(this.level);
-			this.dispose();
+			endTime = System.currentTimeMillis();
+			new SuspendDialog(this);
+			this.setEnabled(false);
 		}
 	}
 
